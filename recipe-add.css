@@ -1,0 +1,173 @@
+/* ===== חלק ג' סעיף 1: בעיות שמצאתי ברוחב 375 (לפני ההתאמה) =====
+   1. הריפוד הגדול (16px ב-body ועוד 24px בתוך הכרטיס) "אוכל" הרבה מהרוחב הצר,
+      והשדות נשארים צרים ודחוסים.
+   2. הכפתור קטן (ברוחב הטקסט בלבד) ולא נוח ללחיצה באצבע במסך של טלפון.
+      בנוסף, מידות בפיקסלים קבועים לא מתחשבות בגודל הגופן שהמשתמש בחר בדפדפן.
+*/
+
+/* ===== חלק ב': עיצוב הטופס ===== */
+
+/* 1. חוק הכוכבית */
+* {
+    box-sizing: border-box;
+}
+
+/* 2. גוף הדף */
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    margin: 0;
+    padding: 1rem;            /* היה 16px - הוחלף ל-rem בחלק ג' */
+}
+
+/* 3+4. הטופס ככרטיס, וגם מיכל Flexbox בטור */
+form {
+    max-width: 600px;         /* גבול עליון - במסך צר הטופס מצטמצם מעצמו */
+    margin: 0 auto;
+    background: #fff;
+    padding: 1.5rem;          /* היה 24px - הוחלף ל-rem בחלק ג' */
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+    color: #2e5597;
+}
+
+/* 5. שדה בודד ושורת השדות הקטנים - טור */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.field > label,
+legend {
+    font-weight: bold;
+}
+
+/* 6. שדות הקלט (כל האינפוטים שאינם צ'קבוקס/רדיו) */
+input:not([type="checkbox"], [type="radio"]),
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 1rem;          /* היה 16px - הוחלף ל-rem בחלק ג' */
+}
+
+/* 7. האפשרויות בשורה, עם ירידת שורה כשאין מקום */
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+fieldset {
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    padding: 10px 14px 14px;
+    margin: 0;
+}
+
+/* 8. אפקט בזמן הקלדה */
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #2e5597;
+    outline: none;
+}
+
+/* 9. צביעת כפתורי הרדיו ותיבות הסימון */
+input[type="radio"],
+input[type="checkbox"] {
+    accent-color: #2e5597;
+}
+
+/* 10. הכפתור */
+button {
+    background: #2e5597;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 24px;
+    font-size: 1rem;          /* היה 16px - הוחלף ל-rem בחלק ג' */
+    min-height: 44px;
+    cursor: pointer;
+    width: 100%;              /* חלק ג' סעיף 4: במסך קטן הכפתור לכל הרוחב */
+}
+
+button:hover {
+    background: #1f3d70;
+}
+
+/* ===== חלק ג': שדרוג למסכים רחבים (Mobile First) ===== */
+@media (width >= 700px) {
+    form {
+        padding: 2rem;
+    }
+
+    .row {
+        flex-direction: row;
+    }
+
+    .row .field {
+        flex: 1;
+    }
+
+    button {
+        width: auto;
+        align-self: center;
+    }
+}
+
+/* ===== חלק ג' סעיף 5 =====
+   שלושת השדות הקטנים "קופצים" לשורה אחת בדיוק ברוחב 700 פיקסלים.
+   ב-699 הם עדיין בטור, וב-700 התנאי width >= 700px מתקיים והם עוברים לשורה.
+*/
+
+/* ===== חלק ד': תשובות =====
+
+שאלה א': מה ההבדל בין id ל-name, ולמה לכל כפתורי הרדיו של סוג המנה יש אותו name?
+תשובה: id הוא מזהה ייחודי של אלמנט בתוך הדף - אסור שיחזור פעמיים. משתמשים בו
+כדי לקשר תווית לשדה (for="..." בתווית = id בקלט), וגם ב-CSS וב-JavaScript.
+name הוא השם שתחתיו הערך נשלח עם הטופס (name=value). שדה בלי name לא נשלח בכלל.
+לשלושת כפתורי הרדיו יש אותו name (kind) כי כך הדפדפן יודע שהם קבוצה אחת:
+אפשר לבחור רק אחד מהם, ונשלח ערך אחד בלבד תחת השם kind.
+ה-id שלהם שונה (meat, dairy, parve) כדי שכל תווית תתחבר לכפתור שלה.
+
+שאלה ב': למה כתבנו את העיצוב של המסך הקטן קודם, והשתמשנו בתנאי width >= ב-Media Query?
+מה היה קורה אם הייתן כותבות את ה-Media Query לפני הכללים הרגילים?
+תשובה: זו גישת Mobile First - הכללים הרגילים הם הבסיס שמתאים לכל מסך (עמודה אחת),
+וה-Media Query רק "מוסיף שדרוג" כשהמסך רחב מספיק (700 ומעלה).
+כשלשני כללים יש אותה ספציפיות, הכלל שכתוב מאוחר יותר בקובץ מנצח.
+לכן אם ה-Media Query היה כתוב לפני הכללים הרגילים, הכללים הרגילים שאחריו היו דורסים אותו:
+למשל .row { flex-direction: column } היה דורס את flex-direction: row,
+ו-button { width: 100% } היה דורס את width: auto - והטופס לא היה משתנה במסך רחב בכלל.
+
+שאלה ג': מה השתנה בכתובת הדף אחרי הלחיצה על שליחה, ומה זה מלמד על התכונה name?
+תשובה: לסוף הכתובת נוסף סימן שאלה ואחריו כל הנתונים בצורת זוגות name=value
+המופרדים ב-&, למשל:
+?title=...&kind=dairy&category=desserts&time=00%3A10&servings=4&ingredients=...&steps=...&suitable=kids&suitable=quick&img=cake.jpg
+(עברית ותווים מיוחדים מקודדים, למשל %D7..., ורווח הופך ל-+).
+זה קורה כי method="get" שולח את הנתונים בכתובת עצמה.
+מזה רואים ש-name הוא ה"מפתח" של כל נתון: הערך נשלח תחת השם שנתנו לו,
+שדה בלי name לא מופיע בכתובת, ותיבות סימון שלא סומנו לא נשלחות.
+כשמסמנים כמה תיבות עם אותו name - השם מופיע כמה פעמים, פעם לכל ערך.
+
+(חלק ד' סעיף 2: כשמנסים לשלוח בלי שם מתכון - את ההודעה הציג הדפדפן, לא אנחנו.
+ זה בזכות התכונה required, בלי שכתבנו שורת קוד אחת לבדיקה.)
+*/
