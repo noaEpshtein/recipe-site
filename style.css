@@ -1,0 +1,68 @@
+        body {
+            color: darkgray;
+        }
+
+        h2 {
+            color: rgb(66, 112, 97);
+        }
+
+        #recipe-title {
+            color: rgb(52, 100, 100);
+            font-size: 40px;
+        }
+
+        .highlight {
+            background-color: rgb(234, 255, 245);
+        }
+
+        .intro {
+            color: rgb(22, 148, 85);
+            font-size: 20px;
+        }
+
+        .block {
+            background-color: white;
+            width: 700px;
+            box-shadow: 0 2px 8px gray;
+        }
+        
+        .block:hover{
+            box-shadow: 0 6px 15px gray;
+        }
+        body{
+            background-color: rgb(230, 230, 230);
+        }
+        #main-image{
+           width: 400px;
+           box-shadow: 0 2px 8px gray;
+        }
+        #info-table{
+        width: 100%;
+        }
+        .side-image{
+            width: 200px;
+            height: 200px;
+        }
+        #nav a:hover { 
+    color: darkred; 
+}
+.ingredients-list li:first-child {
+    color: darkgreen;
+    
+}
+.steps-list li:last-child {
+    color: darkblue;}
+tbody tr:hover {
+    background-color: rgb(234, 255, 245);}
+    .ingredients-list li::before { 
+    content: "✓ "; 
+    color: green; 
+}
+h2::after { 
+    content: " ✔";
+    color: rgb(0, 218, 0); 
+}
+#page-footer p::before {
+    content: "© ";
+}
+.container {width: 900px;}
